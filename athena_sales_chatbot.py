@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import gspread
-from google.oauth2.service_account import Credentials
 
 # Function to determine the recommended Athena program based on responses
 def recommend_program(data):
@@ -100,14 +98,8 @@ if st.button("Get Recommendation"):
     st.write("### Recommended Athena Programs:")
     st.write("\n".join(recommendation))
 
-    # Convert data to DataFrame for CSV/Google Sheets export
+    # Convert data to DataFrame for CSV export
     df = pd.DataFrame([data])
     df["Recommended Programs"] = ", ".join(recommendation)
     df.to_csv("athena_recommendations.csv", index=False)
     st.download_button("Download Recommendation as CSV", "athena_recommendations.csv")
-
-    # Google Sheets Integration (Optional)
-    # credentials = Credentials.from_service_account_file("path_to_service_account.json")
-    # client = gspread.authorize(credentials)
-    # sheet = client.open("Athena Sales Recommendations").sheet1
-    # sheet.append_row(df.iloc[0].tolist())
